@@ -26,3 +26,13 @@ public enum Units: String {
     /// Automatically use the appropriate units based on the location for which you are requesting data.
     case auto = "auto"
 }
+
+public func convertUnitString(_ string: String) -> Units {
+    switch string {
+    case "si" : return .si
+    case "us" : return .us
+    case "ca"  : return .ca
+    case "uk2" : return .uk
+    default : return .auto
+    }
+}
