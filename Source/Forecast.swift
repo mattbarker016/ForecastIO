@@ -24,7 +24,7 @@ public struct Forecast {
     public let alerts: [Alert]?
     
     /// Metadata for the request.
-    public let flags: Flag?
+    public var flags: Flag?
     
     /// The current weather conditions at the requested location.
     public let currently: DataPoint?
