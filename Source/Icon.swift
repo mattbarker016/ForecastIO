@@ -41,6 +41,9 @@ public enum Icon: String {
     /// A partly cloudy night.
     case partlyCloudyNight = "partly-cloudy-night"
     
+    /// No icon.
+    case nil = ""
+    
     /** Returns desired string for Description Label based on enum value */
     public func iconFormat() -> String {
         let text = self.rawValue
