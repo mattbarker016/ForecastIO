@@ -38,6 +38,9 @@ public struct Flag {
     /// The presence of this property indicates which units were used for the data in this request. `US` units are default.
     public let units: Units
     
+    /// Temperature's in The Sentence and app appear as apparent temperatures ("feels like") by defult. 'false' will make all values actual temperatures.
+    public var feelsLike: Bool = true
+    
     /// Creates a new `Flag` from a JSON object.
     ///
     /// - parameter json: A JSON object with keys corresponding to the `Flag`'s properties.
