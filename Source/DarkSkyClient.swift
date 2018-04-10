@@ -62,9 +62,10 @@ open class DarkSkyClient : NSObject {
                 completionHandler(Result.failure(err))
             } else {
                 do {
-                    let jsonObject = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                    if let json = jsonObject as? NSDictionary, let httpURLResponse = response as? HTTPURLResponse {
-                        let forecast = Forecast(fromJSON: json)
+                    if let httpURLResponse = response as? HTTPURLResponse, let data = data {
+                        let jsonDecoder = JSONDecoder()
+                        jsonDecoder.dateDecodingStrategy = .secondsSince1970
+                        let forecast = try jsonDecoder.decode(Forecast.self, from: data)
                         let requestMetadata = RequestMetadata(fromHTTPHeaderFields: httpURLResponse.allHeaderFields)
                         completionHandler(Result.success(forecast, requestMetadata))
                     }

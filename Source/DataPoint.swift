@@ -9,7 +9,7 @@
 import Foundation
 
 /// Weather data for a specific location and time.
-public struct DataPoint {
+public struct DataPoint: Codable {
 
     /// The time at which this `DataPoint` begins. `minutely` `DataPoint`s are always aligned to the top of the minute, `hourly` `DataPoint`s to the top of the hour, and `daily` `DataPoint`s to midnight of the day, all according to the local timezone.
     public let time: Date
@@ -36,22 +36,22 @@ public struct DataPoint {
     public let nearestStormBearing: Double?
     
     /// The intensity of precipitation occuring at the given time. This value is *conditional on probability* (that is, assuming any precipitation falls at all) for `minutely` `DataPoint`s, and unconditional otherwise.
-    public let precipitationIntensity: Double?
+    public let precipIntensity: Double?
     
     /// The maximum value of `precipitationIntensity` during a given day. Only defined on `Forecast`'s `daily` `DataPoint`s.
-    public let precipitationIntensityMax: Double?
+    public let precipIntensityMax: Double?
     
     /// The time at which `precipitationIntensityMax` occurs during a given day. Only defined on `Forecast`'s `daily` `DataPoint`s.
-    public let precipitationIntensityMaxTime: Date?
+    public let precipIntensityMaxTime: Date?
     
     /// The probability of precipitation occurring, between `0` and `1`, inclusive.
-    public let precipitationProbability: Double?
+    public let precipProbability: Double?
     
     /// The type of precipitation occurring at the given time. If `precipIntensity` is `0`, then this will be `nil`.
-    public let precipitationType: Precipitation?
+    public let precipType: Precipitation?
     
     /// The amount of snowfall accumulation expected to occur. This will be `nil` if no accumulation is expected. Only defined on `Forecast`'s `hourly` and `daily` `DataPoint`s.
-    public let precipitationAccumulation: Double?
+    public let precipAccumulation: Double?
     
     /// The air temperature. Not defined on `Forecast`'s `minutely` `DataPoint`s.
     public let temperature: Double?
@@ -115,87 +115,5 @@ public struct DataPoint {
     
     /// The time at which the maximum UV index occurs during the given day. Only defined on `Forecast`'s `daily` `DataPoint`s.
     public let uvIndexTime: Date?
-    
-    /// Creates a new `DataPoint` from a JSON object.
-    ///
-    /// - parameter json: A JSON object with keys corresponding to the `DataPoint`'s properties.
-    ///
-    /// - returns: A new `DataPoint` filled with data from the given JSON object.
-    public init(fromJSON json: NSDictionary) {
-        time = Date(timeIntervalSince1970: json["time"] as! Double)
-        summary = json["summary"] as? String
-        if let jsonIcon = json["icon"] as? String {
-            icon = Icon(rawValue: jsonIcon)
-        } else {
-            icon = nil
-        }
-        if let jsonSunriseTime = json["sunriseTime"] as? Double {
-            sunriseTime = Date(timeIntervalSince1970: jsonSunriseTime)
-        } else {
-            sunriseTime = nil
-        }
-        if let jsonSunsetTime = json["sunsetTime"] as? Double {
-            sunsetTime = Date(timeIntervalSince1970: jsonSunsetTime)
-        } else {
-            sunsetTime = nil
-        }
-        moonPhase = json["moonPhase"] as? Double
-        nearestStormDistance = json["nearestStormDistance"] as? Double
-        nearestStormBearing = json["nearestStormBearing"] as? Double
-        precipitationIntensity = json["precipIntensity"] as? Double
-        precipitationIntensityMax = json["precipIntensityMax"] as? Double
-        if let jsonPrecipitationIntensityMaxTime = json["precipIntensityMaxTime"] as? Double {
-            precipitationIntensityMaxTime = Date(timeIntervalSince1970: jsonPrecipitationIntensityMaxTime)
-        } else {
-            precipitationIntensityMaxTime = nil
-        }
-        precipitationProbability = json["precipProbability"] as? Double
-        if let jsonPrecipitationType = json["precipType"] as? String {
-            precipitationType = Precipitation(rawValue: jsonPrecipitationType)
-        } else {
-            precipitationType = nil
-        }
-        precipitationAccumulation = json["precipAccumulation"] as? Double
-        temperature = json["temperature"] as? Double
-        temperatureLow = json["temperatureLow"] as? Double
-        if let jsonTemperatureLowTime = json["temperatureLowTime"] as? Double {
-            temperatureLowTime = Date(timeIntervalSince1970: jsonTemperatureLowTime)
-        } else {
-            temperatureLowTime = nil
-        }
-        temperatureHigh = json["temperatureHigh"] as? Double
-        if let jsonTemperatureHighTime = json["temperatureHighTime"] as? Double {
-            temperatureHighTime = Date(timeIntervalSince1970: jsonTemperatureHighTime)
-        } else {
-            temperatureHighTime = nil
-        }
-        apparentTemperature = json["apparentTemperature"] as? Double
-        apparentTemperatureLow = json["apparentTemperatureLow"] as? Double
-        if let jsonApparentTemperatureLowTime = json["apparentTemperatureLowTime"] as? Double {
-            apparentTemperatureLowTime = Date(timeIntervalSince1970: jsonApparentTemperatureLowTime)
-        } else {
-            apparentTemperatureLowTime = nil
-        }
-        apparentTemperatureHigh = json["apparentTemperatureHigh"] as? Double
-        if let jsonApparentTemperatureHighTime = json["apparentTemperatureHighTime"] as? Double {
-            apparentTemperatureHighTime = Date(timeIntervalSince1970: jsonApparentTemperatureHighTime)
-        } else {
-            apparentTemperatureHighTime = nil
-        }
-        dewPoint = json["dewPoint"] as? Double
-        windGust = json["windGust"] as? Double
-        windSpeed = json["windSpeed"] as? Double
-        windBearing = json["windBearing"] as? Double
-        cloudCover = json["cloudCover"] as? Double
-        humidity = json["humidity"] as? Double
-        pressure = json["pressure"] as? Double
-        visibility = json["visibility"] as? Double
-        ozone = json["ozone"] as? Double
-        uvIndex = json["uvIndex"] as? Double
-        if let jsonUVIndexTime = json["uvIndexTime"] as? Double {
-            uvIndexTime = Date(timeIntervalSince1970: jsonUVIndexTime)
-        } else {
-            uvIndexTime = nil
-        }
-    }
+
 }
